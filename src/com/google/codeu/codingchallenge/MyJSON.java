@@ -15,40 +15,46 @@
 package com.google.codeu.codingchallenge;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 final class MyJSON implements JSON {
 
+  HashMap<String, JSON> jsonBack = new HashMap<>();
   @Override
   public JSON getObject(String name) {
-    // TODO: implement this
-    return null;
+    return jsonBack.get(name);
   }
 
   @Override
   public JSON setObject(String name, JSON value) {
-    // TODO: implement this
+    jsonBack.put(name, value);
     return this;
   }
 
   @Override
   public String getString(String name) {
-    // TODO: implement this
-    return null;
+    return jsonBack.get(name);
   }
 
   @Override
   public JSON setString(String name, String value) {
-    // TODO: implement this
+    MyJSON nested = new MyJSON();
+    nested.setObject(value, null);
+    jsonBack.put(name, nested);
     return this;
   }
 
   @Override
   public void getObjects(Collection<String> names) {
-    // TODO: implement this
+    for(String s: jsonBack.keySet()) {
+      names.add(this.getObject(s));
+    }
   }
 
   @Override
   public void getStrings(Collection<String> names) {
-    // TODO: implement this
+    for(String s: jsonBack.keySet()) {
+      names.add(s);
+    }
   }
 }
